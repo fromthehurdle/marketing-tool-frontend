@@ -1,0 +1,91 @@
+.result-summary-container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start;
+    gap: 32px;
+
+    padding: 16px; 
+    border: 1px solid #E5E5E5;
+    border-radius: 16px;
+}
+
+.result-summary-container hr {
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+    margin: 0;
+}
+
+.result-summary-container .selling-point {
+    width: 100%; 
+    padding: 16px; 
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+
+    border: 1px solid #E5E5E5;
+    border-radius: 16px;
+}
+
+.result-summary-container .selling-point .selling-point-header .selling-point-header-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.result-summary-container .selling-point .selling-point-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.result-summary-container .selling-point .selling-point-content .selling-point-item {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+
+    cursor: pointer;    
+}
+
+.result-summary-container .selling-point .selling-point-content .selling-point-text {
+    font-size: 16px; 
+}
+
+.result-summary-container .selling-point .selling-point-content .selling-point-section {
+    padding-top: 2px; 
+    padding-bottom: 2px; 
+    padding-left: 8px;
+    padding-right: 8px; 
+
+    border: 1px solid #E5E5E5;
+    border-radius: 8px;
+
+    font-size: 10px;
+}
+
+.result-summary-container .selling-point .selling-point-content .selling-point-heart-icon {
+    cursor: pointer; 
+}
+
+.result-summary-container .product-composition {
+    width: 100%; 
+    padding: 16px; 
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+
+    border: 1px solid #E5E5E5;
+    border-radius: 16px;
+}
+
+.result-summary-container .product-composition .product-composition-header .product-composition-header-text {
+    font-size: 16px;
+    font-weight: bold;
+}

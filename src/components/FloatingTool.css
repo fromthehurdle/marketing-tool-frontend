@@ -1,0 +1,43 @@
+.floating-action-button {
+  position: relative;
+  /* display: inline-block; */
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.floating-action-button .action-icon {
+    position: relative; 
+    z-index: 10; 
+    background-color: #000;
+    width: 44px; 
+    height: 44px;
+    padding: 12px;
+    border-radius: 50%;
+    align-self: flex-end;
+    justify-self: flex-end;
+    cursor: pointer;
+}
+
+.floating-action-button .floating-menu {
+    position: absolute; 
+    right: 60px; 
+    top: 0;
+    /* transform: translateY(-50%); */
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    gap: 16px; 
+    z-index: 5; 
+}
+
+.floating-action-button .floating-menu .menu-action-icon {
+    background-color: #fff;
+    border: 1px solid #E5E5E5;
+    padding: 12px; 
+    border-radius: 50%;
+    width: 44px; 
+    height: 44px;    
+}
+
+

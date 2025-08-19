@@ -1,0 +1,329 @@
+.table-component-container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 32px;
+}
+
+.table-component-container .table-component-header {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.table-component-container .table-component-header .table-component-title {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-component-container .table-component-header .table-component-title .table-component-icon-text {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 8px;
+}
+
+.table-component-container .table-component-header .table-component-title .table-component-actions {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 16px;
+}
+
+.table-component-container .table-component-header .table-component-title .table-component-title-text {
+    font-size: 16px; 
+    font-weight: 500; 
+}
+
+.table-component-container .table-component-header .table-component-subtitle .table-component-subtitle-text {
+    font-size: 14px; 
+    color: #757575;
+}
+
+
+/* .table-component-container .seller-column {
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 4px;
+}
+
+.table-component-container .seller-column .seller-text {
+    overflow-x:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+} */
+
+.table-component-container .seller-column {
+    display: flex; 
+    flex-direction: row;
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 4px;
+}
+
+.table-component-container .seller-column svg {
+    flex-shrink: 0; /* Prevents the icon from shrinking */
+    min-width: 16px; /* Ensures minimum width */
+    width: 16px;     /* Fixed width */
+    height: 16px;    /* Fixed height */
+}
+
+.table-component-container .seller-column .seller-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    flex: 1; /* Takes up remaining space */
+    min-width: 0; /* Allows flex item to shrink below content size */
+}
+
+.table-component-container .product-column-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 4px; 
+}
+
+.table-component-container .product-column {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.table-component-container .product-column .product-text {
+    font-size: 14px; 
+    font-weight: bold;
+    color: #2451F8;
+}
+
+.table-component-container .sale-price-column {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px; 
+}
+
+.table-component-container .sale-price-column .sale-price-text {
+    font-size: 14px; 
+    color: #049E3A;
+}
+
+.table-component-container .sale-price-column .discount-text {
+    padding-left: 8px; 
+    padding-right: 8px; 
+    background-color: #D8FBE3;
+    color: #196334;
+    font-size: 10px; 
+    font-weight: bold; 
+    border-radius: 4px;
+}
+
+.table-component-container .rating-column .rating-text {
+    font-size: 16px; 
+    font-weight: bold;
+}
+
+.table-component-container .date-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+
+}
+
+.table-component-container .date-column .date-text {
+    font-size: 12px; 
+}
+
+.table-footer {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 20px; 
+}
+
+.table-footer .table-footer-text {
+    font-size: 16px; 
+    font-weight: 500;
+    color: #000; 
+}
+
+.table-footer .table-footer-button {
+    background-color: #fff;
+    border: 1px solid #E5E5EC;
+    border-radius: 4px;
+    color: #000;
+    font-size: 16px; 
+    font-weight: 500;
+
+    padding-left: 16px; 
+    padding-right: 16px;
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+}
+
+
+.mantine-Checkbox-input {
+    border-radius: 0px; 
+    border-color: #E5E5EC;
+    cursor: pointer;
+}
+
+.mantine-Checkbox-input:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+.mantine-Checkbox-input[data-indeterminate="true"] {
+    background-color: #000;
+    border-color: #000;
+}
+
+.mantine-datatable-header {
+    cursor: pointer;
+}
+
+.mantine-datatable-pagination {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 16px 0 !important;
+    min-height: 60px;
+}
+
+.mantine-datatable-pagination-text {
+    order: 3;
+}
+/* Rearrange order - records per page section (originally 1st, move to middle) */
+.mantine-datatable-pagination > .mantine-Group-root:first-child {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* Pagination numbers (originally 2nd, move to left) */
+.mantine-datatable-pagination > .mantine-datatable-pagination-pages {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* Your custom footer (originally 3rd, keep on right) */
+.mantine-datatable-pagination > .table-footer {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    gap: 12px;
+}
+
+.mantine-datatable-empty-state {
+    display: none;
+}
+
+.mantine-Pagination-control {
+    background-color: #000;
+    border-color: #000;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.mantine-Pagination-control:hover {
+    background-color: #000;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-NativeSelect-input {
+    background-color: #fff; 
+    color: #000;
+    border: 1px solid #E5E5EC;
+    border-radius: 4px;
+
+    font-size: 16px; 
+    font-weight: 500; 
+
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-NativeSelect-section svg {
+    color: #000;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-TextInput-input {
+    color: #8A8A8A;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-TextInput-input::placeholder {
+    color: #8A8A8A;
+}
+
+
+
+
+
+/* Menu styling */
+
+.table-component-container .menu-dropdown-container {
+    padding-left: 16px;
+    padding-right: 16px; 
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+
+    border-radius: 16px;
+}
+
+.table-component-container .menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.table-component-container .menu-dropdown .menu-dropdown-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 16px;
+
+    
+}
+
+.menu-dropdown .menu-dropdown-header .menu-dropdown-header-text {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px; 
+    padding-right: 16px;
+
+    color: #757575;
+    background-color: #E5E5E5;
+    border-radius: 4px; 
+    width: 100%;
+}
+
+.table-component-container hr {
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+    margin: 0;
+}
+
+.table-component-container .menu-item {
+    padding: 0;
+}
+
+.table-component-container .menu-item .mantine-Menu-itemLabel {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
+
+

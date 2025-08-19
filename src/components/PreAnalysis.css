@@ -1,0 +1,693 @@
+.detail-page-analysis-container .analysis-crawled-container {
+    padding-top: 40px; 
+    padding-bottom: 40px; 
+    padding-left: 20px;
+    padding-right: 20px;
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 32px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 20px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .analysis-crawled-header-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .analysis-crawled-header-text .analysis-crawled-header-title {
+    font-size: 16px; 
+    font-weight: bold;    
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .analysis-crawled-header-text .analysis-crawled-header-subtitle {
+    font-size: 14px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    gap: 32px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis {
+    padding: 16px; 
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 16px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 16px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-header-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-header-subtext {
+    font-size: 14px; 
+    color: #757575;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-content {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 16px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-content .manage-analysis-selected-count {
+    font-size: 12px; 
+    font-weight: 500;
+    padding-top: 4px; 
+    padding-bottom: 4px; 
+    padding-left: 8px; 
+    padding-right: 8px;
+
+    background-color: #F3F3F5;
+    border-radius: 4px; 
+    
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-content .manage-analysis-checkbox-text {
+    font-size: 16px; 
+    color: #000;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-footer .manage-analysis-button {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px; 
+    padding-right: 16px; 
+
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+hr {
+    border: none;
+    border-top: 1px solid #E5E5E5;
+    margin: 16px 0;
+    width: 100%;
+}
+
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping {
+    border: 1px solid #E5E5EC;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 32px; 
+
+    padding: 16px;
+
+    width: 100%; 
+    min-width: 0; 
+    box-sizing: border-box;
+    max-width: 280px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .manage-grouping-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px; 
+
+    /* flex-wrap: wrap;
+    flex-shrink: 1; */
+
+    /* max-width: 280px; */
+    width: 100%;
+
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    flex-shrink: 1; 
+    min-width: 0;
+
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-subtext {
+    white-space: normal;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    line-height: 1.4;
+}
+
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 20px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+
+    padding-top: 16px; 
+    padding-bottom: 16px; 
+    padding-left: 12px; 
+    padding-right: 12px;
+
+    flex: 1; 
+    
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item button {
+    margin-left: auto;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .group-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .group-item-text .group-item-section {
+    font-size: 10px;
+    padding-top: 2px; 
+    padding-bottom: 2px; 
+    padding-left: 8px; 
+    padding-right: 8px;
+
+    border: 1px solid #E5E5EC;
+
+    display: flex;
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: center; 
+
+    border-radius: 8px; 
+
+
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .group-item-text .group-item-category {
+    font-size: 16px; 
+    font-weight: bold; 
+    color: #757575;
+}
+
+/* .detail-page-analysis-container .analysis-crawled-container .crawled-main {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    gap: 32px; 
+    flex-wrap: wrap;
+} */
+
+/* .detail-page-analysis-container .analysis-crawled-container .crawled-main {
+    columns: 3;
+    column-gap: 32px;
+    column-fill: balance;
+}
+
+.crawled-item {
+    max-width: 300px;
+    width: 100%;
+    margin-bottom: 32px;
+    break-inside: avoid;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+
+    position: relative; 
+} */
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-main {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    /* Remove columns, column-gap, column-fill */
+}
+
+.crawled-item {
+    max-width: 300px;
+    width: 100%;
+    /* Remove margin-bottom and break-inside */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+    position: relative; 
+}
+
+.crawled-item .crawled-item-menu {
+    position: absolute; 
+    top: 0;
+    right: 10px;
+    z-index: 1000;
+
+    cursor: pointer;
+
+}
+
+.crawled-item .crawled-item-zoom {
+    width: 44px; 
+    height: 44px; 
+    background-color: #fff;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: row; 
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    right: 10px; 
+    bottom: 100px; 
+    z-index: 1000;
+
+    cursor: pointer; 
+}
+
+.crawled-image {
+    width: 100%;
+    height: auto;
+    height: 360px;
+    border-radius: 12px;
+    /* object-fit: cover; */
+    
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 8px;
+
+    cursor: pointer;
+
+}
+
+.crawled-item-grouping {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.crawled-item-grouping-select {
+    width: 100%;
+    background-color: #fff;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 768px) {
+    .detail-page-analysis-container .analysis-crawled-container .crawled-main {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 16px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .detail-page-analysis-container .analysis-crawled-container .crawled-main {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1201px) {
+    .detail-page-analysis-container .analysis-crawled-container .crawled-main {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.crawled-item-grouping-select .mantine-NativeSelect-input {
+    border-color: #E5E5EC;
+}
+
+.preanalysis-modal-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 16px;
+}
+
+.preanalysis-modal-header .preanalysis-modal-title {
+    font-size: 16px; 
+    font-weight: 500;
+}
+
+.preanalysis-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.preanalysis-modal-content .preanalysis-modal-text {
+    font-size: 14px; 
+    font-weight: 500; 
+    color: #757575;
+}
+
+.preanalysis-modal-content .preanalysis-modal-buttons {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.preanalysis-modal-content .preanalysis-modal-buttons button {
+    flex: 1;
+}
+
+.crop-header {
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.crop-header .crop-header-title {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 8px;
+}
+
+.crop-header .crop-header-title .crop-header-title-text {
+    font-size: 16px; 
+    font-weight: 500; 
+}
+
+.crop-header .crop-header-sub-title .crop-header-sub-title-text {
+    font-size: 14px; 
+    color: #757575;
+}
+
+
+.crop-content {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    gap: 32px;
+}
+
+.crop-content .crawled-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.crop-content .crawled-sidebar .manage-analysis {
+    padding: 16px; 
+
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 16px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 16px;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-header-text {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-header-subtext {
+    font-size: 14px; 
+    color: #757575;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-content {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 16px;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-content .manage-analysis-selected-count {
+    font-size: 12px; 
+    font-weight: 500;
+    padding-top: 4px; 
+    padding-bottom: 4px; 
+    padding-left: 8px; 
+    padding-right: 8px;
+
+    background-color: #F3F3F5;
+    border-radius: 4px; 
+    
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-content .manage-analysis-checkbox-text {
+    font-size: 16px; 
+    color: #000;
+}
+
+.crop-content .crawled-sidebar .manage-analysis .manage-analysis-footer .manage-analysis-button {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px; 
+    padding-right: 16px; 
+
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    flex: 1;
+    flex-grow: 1;
+    width: 100%;
+}
+
+
+hr {
+    border: none;
+    border-top: 1px solid #E5E5E5;
+    margin: 16px 0;
+    width: 100%;
+}
+
+
+.crop-content .crawled-sidebar .manage-grouping {
+    border: 1px solid #E5E5EC;
+    border-radius: 16px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 32px; 
+
+    padding: 16px;
+
+    width: 100%; 
+    min-width: 0; 
+    box-sizing: border-box;
+    max-width: 280px;
+}
+
+.crop-content .crawled-sidebar .manage-grouping .manage-grouping-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 8px; 
+
+    /* flex-wrap: wrap;
+    flex-shrink: 1; */
+
+    /* max-width: 280px; */
+    width: 100%;
+
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    flex-shrink: 1; 
+    min-width: 0;
+
+}
+
+.crop-content .crawled-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-subtext {
+    white-space: normal;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    line-height: 1.4;
+}
+
+
+.crop-content .crawled-sidebar .manage-grouping .grouping-item-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+}
+
+.crop-content .crawled-sidebar .manage-grouping .grouping-item {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 20px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+
+    padding-top: 16px; 
+    padding-bottom: 16px; 
+    padding-left: 12px; 
+    padding-right: 12px;
+
+    flex: 1; 
+    
+}
+
+.crop-content .crawled-sidebar .manage-grouping .grouping-item button {
+    margin-left: auto;
+}
+
+.crop-content .crawled-sidebar .manage-grouping .group-item-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px; 
+}
+
+.crop-content .crawled-sidebar .manage-grouping .group-item-text .group-item-section {
+    font-size: 10px;
+    padding-top: 2px; 
+    padding-bottom: 2px; 
+    padding-left: 8px; 
+    padding-right: 8px;
+
+    border: 1px solid #E5E5EC;
+
+    display: flex;
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: center; 
+
+    border-radius: 8px; 
+
+
+}
+
+.crop-content .crawled-sidebar .manage-grouping .group-item-text .group-item-category {
+    font-size: 16px; 
+    font-weight: bold; 
+    color: #757575;
+}
+
+.crop-content .crop-main {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 16px; 
+}
+
+.crop-content .crop-main .crop-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 16px; 
+
+    max-width: 290px;
+}
+
+.crop-content .crop-main .crop-item .crop-image-container {
+    padding-left: 20px;
+    padding-right: 20px; 
+    padding-top: 40px; 
+    padding-bottom: 40px; 
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 32px;
+}
+
+.crop-content .crop-main .crop-item .crop-image-container .crop-image-menu {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+    align-items: center;
+    gap: 10px; 
+    cursor: pointer;    
+}
+
+.crop-content .crop-main .crop-item .crop-image-container .crop-image-menu .crop-menu-icon {
+    width: 44px; 
+    height: 44px; 
+    border: 1px solid #E5E5EC;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+}
+
+.crop-content .crop-main .crop-item .crop-image-properties {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 8px; 
+}

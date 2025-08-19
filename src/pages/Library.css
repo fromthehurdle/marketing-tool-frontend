@@ -1,0 +1,75 @@
+.library-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 20px;
+}
+
+.library-container .top {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.library-container .top .mantine-SegmentedControl-root {
+    background-color: #E5E5EC; 
+    border-radius: 80px; 
+    color: #000;
+}
+
+.library-container .top .mantine-SegmentedControl-control {
+    padding-left: 26px; 
+    padding-right: 26px; 
+    padding-top: 8px; 
+    padding-bottom: 8px;
+    
+}
+
+.library-container .top .mantine-SegmentedControl-control[data-active="true"] {
+    border-radius: 80px;
+    padding-left: 26px; 
+    padding-right: 26px; 
+    padding-top: 8px; 
+    padding-bottom: 8px;
+    background-color: #fff;
+}
+
+.library-container .top .mantine-SegmentedControl-indicator {
+    border-radius: 80px;
+}
+
+.library-container .top .mantine-SegmentedControl-innerLabel {
+    color: #000;
+}
+
+.library-container .library-list {
+    padding-top: 40px;
+    padding-bottom: 40px; 
+    padding-left: 20px; 
+    padding-right: 20px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+
+    /* height: 70vh;  */
+    max-height: 70vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.library-container .history-list {
+    padding-top: 40px;
+    padding-bottom: 40px; 
+    padding-left: 20px; 
+    padding-right: 20px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+
+    height: 70vh; 
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+

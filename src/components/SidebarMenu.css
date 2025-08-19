@@ -1,0 +1,41 @@
+.menu-dropdown-container {
+    padding-left: 16px;
+    padding-right: 16px; 
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+
+    border-radius: 16px;
+}
+
+.menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.menu-dropdown .menu-dropdown-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 16px;
+}
+
+hr {
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+    margin: 0;
+}
+
+.menu-item {
+    padding: 0;
+}
+
+.menu-item .mantine-Menu-itemLabel {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}

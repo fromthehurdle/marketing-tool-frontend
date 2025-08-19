@@ -1,0 +1,142 @@
+.compare-component-container {
+    padding-top: 40px;
+    padding-bottom: 40px; 
+    padding-left: 20px; 
+    padding-right: 20px; 
+
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 32px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 8px;
+}
+
+.compare-component-container .compare-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 8px; 
+}
+
+.compare-component-container .compare-top .compare-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 8px;
+}
+
+.compare-component-container .compare-top .compare-header .compare-header-text {
+    font-size: 20px; 
+}
+
+.compare-component-container .compare-top .compare-sub-header .compare-sub-header-text {
+    font-size: 14px; 
+    color: #757575;
+}
+
+.compare-component-container .compare-top .compare-end-header {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center;
+    gap: 8px; 
+}
+
+.compare-component-container .compare-top .compare-end-header .compare-end-header-text {
+    font-size: 14px; 
+    color: #757575;
+}
+
+.compare-component-container .compare-middle {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center; 
+    gap: 40px; 
+}
+
+.compare-component-container .compare-middle .compare-item {
+    flex: 1; 
+    height: auto;
+
+    padding: 16px; 
+
+    display: flex; 
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 8px; 
+
+    border: 1px solid #E5E5EC;
+    border-radius: 12px;
+
+    max-height: 124px;
+    min-height: 124px;
+}
+
+.compare-component-container .compare-middle .compare-item .compare-item-icon {
+
+}
+
+.compare-component-container .compare-middle .compare-item .compare-item-info {
+    align-self: flex-end;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 4px;
+}
+
+.compare-component-container .compare-middle .compare-item .compare-item-info .compare-item-title {
+    font-size: 14px; 
+    font-size: clamp(10px, 1vw, 14px);
+    align-self: flex-end;
+}
+
+.compare-component-container .compare-middle .compare-item .compare-item-info .compare-item-title-2 {
+    font-size: 20px; 
+    font-weight: bold; 
+    color: #757575;
+
+    font-size: clamp(10px, 1vw, 20px);
+}
+
+.compare-component-container .compare-middle .compare-item .compare-item-info .compare-item-subtitle {
+    font-size: 20px; 
+    font-weight: bold;
+}
+
+.compare-component-container .compare-bottom {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px; 
+}
+
+.compare-component-container .compare-bottom .compare-edit-button {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px; 
+    padding-right: 16px; 
+
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #E5E5EC;
+    border-radius: 4px; 
+
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.compare-component-container .compare-bottom .compare-compare-button {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px; 
+    padding-right: 16px;
+
+    font-size: 16px;
+    font-weight: 500;
+} 

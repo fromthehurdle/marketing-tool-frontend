@@ -1,0 +1,57 @@
+/* Menu styling */
+
+.table-component-container .menu-dropdown-container {
+    padding-left: 16px;
+    padding-right: 16px; 
+    padding-top: 20px; 
+    padding-bottom: 20px; 
+
+    border-radius: 16px;
+}
+
+.table-component-container .menu-dropdown {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px; 
+}
+
+.table-component-container .menu-dropdown .menu-dropdown-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 16px;
+
+    
+}
+
+.menu-dropdown .menu-dropdown-header .menu-dropdown-header-text {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px; 
+    padding-right: 16px;
+
+    color: #757575;
+    background-color: #E5E5E5;
+    border-radius: 4px; 
+    width: 100%;
+}
+
+.table-component-container hr {
+    border-top: 1px solid #E5E5E5;
+    width: 100%;
+    margin: 0;
+}
+
+.table-component-container .menu-item {
+    padding: 0;
+}
+
+.table-component-container .menu-item .mantine-Menu-itemLabel {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+}
