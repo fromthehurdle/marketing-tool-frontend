@@ -35,6 +35,8 @@
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .analysis-crawled-header-text .analysis-crawled-header-subtitle {
     font-size: 14px; 
+    color: #757575;
+
 }
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content {
@@ -174,6 +176,7 @@ hr {
     word-wrap: break-word; 
     overflow-wrap: break-word;
     line-height: 1.4;
+    color: #757575;
 }
 
 

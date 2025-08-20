@@ -11,7 +11,10 @@ function FloatingActionButton(props) {
       {/* Main button */}
       <ActionIcon
         color="dark"
-        onClick={() => setOpened(!opened)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setOpened(!opened)
+        }}
         className="action-icon"
       >
         <IconTool size="1.5rem" color="white" />
@@ -35,7 +38,7 @@ function FloatingActionButton(props) {
             //   radius="xl" 
               variant="outline"
               className="menu-action-icon"
-              onClick={() => {
+              onClick={(e) => {
                 props?.setIsEditing(!props?.isEditing);
               }}
             >

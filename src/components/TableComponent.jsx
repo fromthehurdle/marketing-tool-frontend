@@ -256,7 +256,7 @@ export default function TableComponent(props) {
             accessor: 'keyword', 
             title: 'Keyword', 
             textAlign: 'left', 
-            width: 150, 
+            minWidth: 80, 
             render: ({keyword}) => (
                 <div className="keyword-column">
                     <span className="keyword-text">{keyword}</span>
@@ -287,7 +287,7 @@ export default function TableComponent(props) {
                     <div className="seller-text">{seller}</div>
                 </div>
             ), 
-            width: 120, 
+            minWidth: 100, 
         },
         {
             accessor: 'product', 
@@ -306,7 +306,7 @@ export default function TableComponent(props) {
                     }}/>
                 </div>
             ), 
-            width: 120 
+            width: 120, 
         }, 
         {
             accessor: 'original_price',

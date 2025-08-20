@@ -1,40 +1,21 @@
 import React from 'react';
 import './PostAnalysis.css';
 import { useState, useEffect } from 'react';
-import { Checkbox, Image, Button, Input, NativeSelect, Tabs, SegmentedControl, TextInput, Menu, ActionIcon } from '@mantine/core';
+import { Image, SegmentedControl } from '@mantine/core';
 import { 
-  IconSearch, 
-  IconFolderFilled, 
-  IconRefresh, 
-  IconFileAnalyticsFilled, 
-  IconUpload,
-  IconSettingsAutomation,
-  IconChart,
   IconChartBar,
-  IconMenu, 
-  IconDotsCircleHorizontal, 
-  IconDots, 
-  IconBookmarkFilled,
   IconMessage, 
-  IconDotsVertical,
-  IconTrash, 
-  IconSwitch, 
-  IconCrop, 
 } from '@tabler/icons-react';
-import TableComponent from '../components/TableComponent';
-import CompareComponent from '../components/CompareComponent';
-import ResultSummary from './ResultSummary';
 import SectionResult from './SectionResult';
-import SidebarMenu from './SidebarMenu';
 import { baseUrl } from '../shared';
-
+import ResultSummary from './ResultSummary';
 
 export default function PostAnalysis(props) {
     const [activeTab, setActiveTab] = useState('detail-page'); // full, detail-page, ai
     const [analysisResult, setAnalysisResult] = useState([]);
     const [sectionButtons, setSectionButtons] = useState([]); 
     const [openSection, setOpenSection] = useState(null);   
-
+    
     const getAnalysisResult = async () => {
         try {
             const response = await fetch(baseUrl + `api/analysis-results/by_result/?result_id=${props?.resultData?.id}`, {
@@ -68,20 +49,20 @@ export default function PostAnalysis(props) {
 
     const getImageCategory = (category) => {
         switch (category) {
+            case 'hook':
+                return 'Hook';
+            case 'promotion':
+                return 'Promotion';
+            case 'selling_point':
+                return 'Selling Point';
             case 'product_option':
                 return 'Product Option';
-            case 'product_description':
-                return 'Product Description';
-            case 'specifications':
-                return 'Specifications';
-            case 'usage_guide':
-                return 'Usage Guide';
-            case 'ingredients':
-                return 'Ingredients';
-            case 'size_chart':
-                return 'Size Chart';
-            case 'warranty':
-                return 'Warranty';
+            case 'review': 
+                return 'Review';
+            case 'qna': 
+                return 'QnA';
+            case 'shipping': 
+                return 'Shipping';            
             case 'other':
                 return 'Other';
             default:
@@ -106,7 +87,6 @@ export default function PostAnalysis(props) {
                     {
                         label: (
                             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            {/* <IconSettingsAutomation size="1.5rem" /> */}
                             <span style={{ fontSize: '16px', fontWeight: '500'}}>전체 보기</span>
                             </div>
                         ),
@@ -131,7 +111,7 @@ export default function PostAnalysis(props) {
                         value: 'ai'
                     }
                 ]}
-            /> 
+            />
             <div className="post-analysis-result">
                 <div className="result-sidebar">
                     <div className="manage-grouping">
@@ -168,12 +148,10 @@ export default function PostAnalysis(props) {
                                         <div className="group-item-text">
                                             <div className="group-item-section">Section {item?.section}</div>
                                             <div className="group-item-category">
-                                                <IconBookmarkFilled size="1.2rem" color={sectionButtons[item.section] ? "#fff" : "#000"} />
+                                                {/* <IconBookmarkFilled size="1.2rem" color={sectionButtons[item.section] ? "#fff" : "#000"} /> */}
                                                 <span>{getImageCategory(item?.category)}</span>
                                             </div>
                                         </div>
-                                        {/* <IconDots size="1.2rem" color="#E5E5EC" className="grouping-item-menu" /> */}
-                                        {/* <SidebarMenu /> */}
                                     </div>
                                 )
                             })}
@@ -181,7 +159,6 @@ export default function PostAnalysis(props) {
                     </div>
                 </div>
                 <div className="result-main">
-                    {/* <ResultSummary /> */}
                     <SectionResult analysisResult={analysisResult} getImageCategory={getImageCategory} openSection={openSection} setOpenSection={setOpenSection} sectionButtons={sectionButtons} setSectionButtons={setSectionButtons} />
                 </div>
             </div>

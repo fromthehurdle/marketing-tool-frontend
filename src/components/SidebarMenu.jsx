@@ -1,7 +1,7 @@
 import React from 'react';
 import './SidebarMenu.css';
 import { useState, useEffect } from 'react';
-import { Checkbox, Image, Button, Input, NativeSelect, Tabs, SegmentedControl, TextInput, Menu, ActionIcon } from '@mantine/core';
+import { Checkbox, Image, Button, Input, NativeSelect, Tabs, SegmentedControl, TextInput, Menu, ActionIcon, ModalBaseCloseButton } from '@mantine/core';
 import { 
   IconSearch, 
   IconFolderFilled, 
@@ -43,7 +43,9 @@ export default function SidebarMenu(props) {
                         <span className="menu-dropdown-header-text">메뉴</span>
                     </div>
                     <hr />
-                    <Menu.Item className="menu-item">
+                    <Menu.Item className="menu-item" onClick={() => {
+                        props?.handleImageDelete(props.cropId);
+                    }}>
                         <IconTrash size="1.2rem" color="#000" />
                         <span className="menu-item-text">이미지 삭제하기</span>
                     </Menu.Item>
@@ -54,7 +56,10 @@ export default function SidebarMenu(props) {
                     <Menu.Item className="menu-item" onClick={() => {
                         props.openCropModal();
                         props.setCropSection(props.section);
-                    }}>
+                        props.setCropId(props.cropId);
+                        props?.setCropImageList([props?.cropId]);
+                        props?.setHoveredItem(null);    
+                    }}> 
                         <IconCrop size="1.2rem" color="#000" />
                         <span className="menu-item-text">이미지 크롭하기</span>
                     </Menu.Item>

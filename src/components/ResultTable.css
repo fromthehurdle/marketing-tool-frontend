@@ -1,0 +1,216 @@
+.library-table-component-container {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 32px;
+}
+
+.library-table-component-container .library-table-component-header {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start;
+    gap: 8px;
+}
+
+.library-table-component-container .library-table-component-header .library-table-component-title {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.library-table-component-container .library-table-component-header .library-table-component-title .library-table-component-icon-text {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start; 
+    align-items: center; 
+    gap: 8px;
+}
+
+.library-table-component-container .library-table-component-header .library-table-component-title .library-table-component-actions {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-end; 
+    align-items: center; 
+    gap: 16px;
+
+    align-self: flex-end;
+}
+
+.library-table-component-container .library-table-component-header .library-table-component-title .library-table-component-title-text {
+    font-size: 16px; 
+    font-weight: 500; 
+}
+
+.library-table-component-container .library-table-component-header .library-table-component-subtitle .library-table-component-subtitle-text {
+    font-size: 14px; 
+    color: #757575;
+}
+
+.library-table-component-container .table-text {
+    font-size: 14px; 
+}
+
+.library-table-component-container .name-column {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px; 
+}
+
+
+.table-footer {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 20px; 
+}
+
+.table-footer .table-footer-text {
+    font-size: 16px; 
+    font-weight: 500;
+    color: #000; 
+}
+
+.table-footer .table-footer-button {
+    background-color: #fff;
+    border: 1px solid #E5E5EC;
+    border-radius: 4px;
+    color: #000;
+    font-size: 16px; 
+    font-weight: 500;
+
+    padding-left: 16px; 
+    padding-right: 16px;
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+}
+
+.mantine-Checkbox-input {
+    border-radius: 0px; 
+    border-color: #E5E5EC;
+    cursor: pointer;
+}
+
+.mantine-Checkbox-input:checked {
+    background-color: #000;
+    border-color: #000;
+}
+
+.mantine-Checkbox-input[data-indeterminate="true"] {
+    background-color: #000;
+    border-color: #000;
+}
+
+.mantine-datatable-pagination {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 16px 0 !important;
+    min-height: 60px;
+}
+
+.mantine-datatable-pagination-text {
+    order: 3;
+}
+/* Rearrange order - records per page section (originally 1st, move to middle) */
+.mantine-datatable-pagination > .mantine-Group-root:first-child {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* Pagination numbers (originally 2nd, move to left) */
+.mantine-datatable-pagination > .mantine-datatable-pagination-pages {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+}
+
+/* Your custom footer (originally 3rd, keep on right) */
+.mantine-datatable-pagination > .table-footer {
+    display: flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    gap: 12px;
+}
+
+.mantine-datatable-empty-state {
+    display: none;
+}
+
+.mantine-Pagination-control {
+    background-color: #000;
+    border-color: #000;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.mantine-Pagination-control:hover {
+    background-color: #000;
+}
+
+.mantine-Table-tr {
+    cursor: pointer;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-NativeSelect-input {
+    background-color: #fff; 
+    color: #000;
+    border: 1px solid #E5E5EC;
+    border-radius: 4px;
+
+    font-size: 16px; 
+    font-weight: 500; 
+
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-NativeSelect-section svg {
+    color: #000;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-TextInput-input {
+    color: #8A8A8A;
+}
+
+.table-component-container .table-component-header .table-component-title .mantine-TextInput-input::placeholder {
+    color: #8A8A8A;
+}
+
+.add-folder-modal-header {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 16px; 
+}
+
+.add-folder-modal-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; 
+    gap: 16px;
+}
+
+.add-folder-modal-divider {
+    margin-top: 16px; 
+    /* margin-bottom: 16px; */
+}
+
+.add-folder-modal-content .add-folder-modal-item {
+    display: flex;
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 4px; 
+}
+
+.clickable-datatable tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.clickable-datatable tbody tr:hover {
+    background-color: #f8f9fa;
+}

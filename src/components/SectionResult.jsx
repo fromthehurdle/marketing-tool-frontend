@@ -23,6 +23,7 @@ import {
 import TableComponent from '../components/TableComponent';
 import CompareComponent from '../components/CompareComponent';
 import FloatingTool from './FloatingTool';
+import ResultTable from './ResultTable';
 
 import { Accordion } from '@mantine/core';
 
@@ -31,20 +32,55 @@ export default function SectionResult(props) {
     const [activeSection, setActiveSection] = useState(null);   
 
     useEffect(() => {
-        console.log("Open Section:", props.openSection);
         if (props.openSection !== undefined && props.openSection !== null) {
             setActiveSection(`section${props.openSection}`);
-            console.log("Active Section set to:", `section${props.openSection}`);
         }
     }, [props.openSection]);
 
     const EditableSection = ({ section, index }) => {
         const [isEditing, setIsEditing] = useState(false);
-
+        
         return (
             <>
                 <div className="section-result-text-content" contentEditable={isEditing}>
-                    {section?.result_json?.analysis}
+                    {section?.result_json?.analysis && section?.result_json?.analysis !== "undefined" && JSON.parse(section?.result_json?.analysis)?.return_type === "sectioned" ? 
+                        (JSON.parse(section?.result_json?.analysis)?.sections?.map((sectionItem, index) => {
+                            console.log("Section Item: ", sectionItem);
+                            return (
+                                <div key={index} className="sectioned-text">
+                                    <div className="section-result-title">
+                                        <span className="sectioned-text-title">{sectionItem.title}</span>
+                                    </div>
+                                    {sectionItem?.content_type === "text" && 
+                                        <div className="section-result-item">
+                                            {Array.isArray(sectionItem?.content) 
+                                                ? sectionItem.content.map((item, index) => (
+                                                    <span key={index} className="sectioned-text-item">{item}</span>
+                                                ))
+                                                : <span className="sectioned-text-item">{sectionItem?.content}</span>
+                                            }
+                                        </div>
+                                    }
+                                    {sectionItem?.content_type === "bullet" && 
+                                        <div className="section-result-item">
+                                            {sectionItem?.content?.map((item, index) => {
+                                                return (
+                                                    <ul key={index}>
+                                                        <li className="sectioned-text-item">{item}</li>
+                                                    </ul>
+                                                );
+                                            })}
+                                        </div>
+                                    }
+                                    {sectionItem?.content_type === "table" && sectionItem?.headers &&
+                                        <div className="section-result-item">
+                                            <ResultTable columns={sectionItem?.headers} resultData={sectionItem?.rows} />
+                                        </div>
+                                    }                                    
+                                </div>
+                            );
+                        }))
+                    : null }
                 </div>
                 <FloatingTool text={section?.result_json?.analysis} isEditing={isEditing} setIsEditing={setIsEditing} />
             </>
@@ -57,8 +93,6 @@ export default function SectionResult(props) {
                 const sectionKey = `section${section?.section || index + 1}`;
                 return (
                     <Accordion 
-                        // key={index} 
-                        // defaultValue="section1"
                         key={index}
                         value={activeSection}
                         onChange={setActiveSection}
@@ -72,9 +106,9 @@ export default function SectionResult(props) {
                             }
 
                             props.setSectionButtons(prev => ({
-                                ...prev,
+                                ...Object.keys(prev).reduce((acc, key) => ({ ...acc, [key]: false }), {}),
                                 "summary": false,
-                                [section?.section]: !prev[section?.section]
+                                [section.section]: true  // Always set to true, don't toggle
                             }));
                         }}>
                             <Accordion.Control>
@@ -86,7 +120,7 @@ export default function SectionResult(props) {
                             <Accordion.Panel>
                                 <div className="section-result-content">
                                     <Image 
-                                        src={section?.result_json?.image_urls[0].substring(8) || "https://placehold.co/600x400?text=Placeholder"}
+                                        src={section?.result_json?.image_urls[0] || "https://placehold.co/600x400?text=Placeholder"}
                                         alt="Section 1 Image"
                                         className="section-result-image"
                                         fit="contain"
