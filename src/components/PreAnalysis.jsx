@@ -896,7 +896,9 @@ export default function PreAnalysis(props) {
                                             }}>
                                                 <IconPlus size="1.5rem" color="#000" />
                                             </span>
-                                            <span className="crop-menu-icon">
+                                            <span className="crop-menu-icon" onClick={() => {
+                                                handleImageDelete(image.id);
+                                            }}>
                                                 <IconMinus size="1.5rem" color="#000" />
                                             </span>
                                             <span className="crop-menu-icon">

@@ -84,13 +84,37 @@ export default function DetailPageAnalysis() {
         }
     }
 
-    useEffect(() => {
-        getResultData();
+    // useEffect(() => {
+    //     getResultData();
+    //     if (resultData?.analysis_status === 'in_progress') {
 
-        setInterval(() => {
-            getResultData();
-        }, 30000);
-    }, []);
+    //     }
+    //     setInterval(() => {
+    //         getResultData();
+    //     }, 30000);
+    // }, []);
+
+    useEffect(() => {
+        let intervalId;
+
+        const fetchData = async () => {
+            await getResultData();
+            if (resultData?.analysis_status === "in_progress" && !intervalId) {
+            intervalId = setInterval(() => {
+                getResultData();
+            }, 30000);
+            } else if (resultData?.analysis_status !== "in_progress" && intervalId) {
+            clearInterval(intervalId);
+            intervalId = null;
+            }
+        };
+
+        fetchData();
+
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [resultData?.analysis_status]);
 
     return (
         <div className="detail-page-analysis-container">

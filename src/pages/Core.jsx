@@ -262,7 +262,8 @@ export default function Core(props) {
         const pathSegments = pathname.split('/').filter(segment => segment !== '');
         
         if (pathSegments.length === 0) {
-            return 'home'; // Root path
+            // return 'home'; // Root path
+            return 'search';
         } else if (pathSegments[0] == 'folder') {
             return 'library';
         }

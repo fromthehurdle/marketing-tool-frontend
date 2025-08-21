@@ -174,36 +174,33 @@ export default function ShoppingKeywordSearch() {
         } catch (error) {
             console.error("Error saving to library:", error);
         }
-    }
-
-
-    
+    }    
 
     return (
         <div className="shopping-keyword-search">
             <Modal opened={libraryModalOpened} onClose={closeLibraryModal} title={
-                    <div className="add-folder-modal-header">
-                        <IconFolderFilled size="1.5rem" color="#000"/>
-                        <span className="add-folder-modal-title">저장하기</span>
+                <div className="add-folder-modal-header">
+                    <IconFolderFilled size="1.5rem" color="#000"/>
+                    <span className="add-folder-modal-title">저장하기</span>
+                </div>
+            }>
+                <div className="add-folder-modal-content">
+                    <hr className="add-folder-modal-separator"/>
+                    <div className="add-folder-modal-item">
+                        <span className="add-folder-modal-item-label">폴더</span>
+                        <NativeSelect 
+                            variant="filled"
+                            placeholder="상위 5개"
+                            data={libraries?.map(library => ({ value: library.id, label: library.name }))}
+                            value={selectedLibrary}
+                            onChange={(e) => setSelectedLibrary(e.target.value)}
+                        />
                     </div>
-                }>
-                    <div className="add-folder-modal-content">
-                        <hr className="add-folder-modal-separator"/>
-                        <div className="add-folder-modal-item">
-                            <span className="add-folder-modal-item-label">폴더</span>
-                            <NativeSelect 
-                                variant="filled"
-                                placeholder="상위 5개"
-                                data={libraries?.map(library => ({ value: library.id, label: library.name }))}
-                                value={selectedLibrary}
-                                onChange={(e) => setSelectedLibrary(e.target.value)}
-                            />
-                        </div>
-                        <Button variant="filled" color="rgba(0,0,0,1)" className="add-folder-modal-button" onClick={() => saveToLibraryButtonHandler()}>
-                            저장
-                        </Button>
-                    </div>
-                </Modal>
+                    <Button variant="filled" color="rgba(0,0,0,1)" className="add-folder-modal-button" onClick={() => saveToLibraryButtonHandler()}>
+                        저장
+                    </Button>
+                </div>
+            </Modal>
             {/* <div className="top"> */}
                 {/* <div className="header">
                     <h1>쇼핑 키워드 리서치</h1>
@@ -227,7 +224,7 @@ export default function ShoppingKeywordSearch() {
                                 variant="filled"
                                 label="채널 선택" 
                                 placeholder="Select channel"
-                                data={["naver", "coupang"]} 
+                                data={["", "naver", "coupang"]} 
                                 onChange={(e) => {
                                     setSearchFormData({ ...searchFormData, channel: e.target.value });
                                 }}

@@ -98,7 +98,7 @@ export default function Library() {
             }
             {activeTab === 'history' && 
                 <div className="history-list">
-                    <TableComponent showRecords={true} showActions={true} showExport={true} showKeyword={true} searchResults={history} searchType={"history"} getHistory={getHistory} />
+                    <TableComponent showRecords={true} showActions={true} showExport={true} showKeyword={true} searchResults={history} searchType={"history"} getHistory={getHistory} showLibrary={true}/>
                 </div>
             }
 

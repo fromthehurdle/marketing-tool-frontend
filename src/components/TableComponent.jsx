@@ -67,6 +67,8 @@ export default function TableComponent(props) {
     const [filteredColumns, setFilteredColumns] = useState([]);
 
     const [libraryModalOpened, { open: openLibraryModal, close: closeLibraryModal }] = useDisclosure(false);
+    const [libraries, setLibraries] = useState([]);
+    const [selectedLibrary, setSelectedLibrary] = useState(1);
 
     const navigate = useNavigate();
 
@@ -562,18 +564,46 @@ export default function TableComponent(props) {
         }
     };
 
-    const saveToLibraryButtonHandler = async () => {
+    useEffect(() => {
+        if (props.tableType === "search") {
+            props.setSelectedRecords(selectedRecords);
+        }
+    }, [selectedRecords]);
 
-        console.log("here: ", selectedRecords);
+    const getLibraries = async () => {
         try {
-            const response = await fetch(baseUrl + 'api/libraries/1/add_item/', {
+            const response = await fetch(baseUrl + 'api/libraries/', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('access')
+                }
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setLibraries(data?.results || []);
+            }
+        } catch (error) {
+            console.error("Error fetching libraries:", error);  
+        }
+    }
+
+    useEffect(() => {
+        getLibraries();
+    }, []);
+
+    const saveToLibraryButtonHandler = async () => {
+        try {
+            const response = await fetch(baseUrl + `api/libraries/${selectedLibrary}/add_item/`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
                     'Authorization': 'Bearer ' + localStorage.getItem('access')
                 }, 
                 body: JSON.stringify({
-                    result: selectedRecords.map(record => record.result_id)[0],  
+                    result: selectedRecords.map(record => record.result)[0],  
                 })
             });
 
@@ -587,18 +617,32 @@ export default function TableComponent(props) {
         }
     }
 
-    useEffect(() => {
-        if (props.tableType === "search") {
-            props.setSelectedRecords(selectedRecords);
-        }
-    }, [selectedRecords]);
-
 
 
     return (
         <div className="table-component-container">
-            <Modal opened={libraryModalOpened}>
-                
+            <Modal opened={libraryModalOpened} onClose={closeLibraryModal} title={
+                <div className="add-folder-modal-header">
+                    <IconFolderFilled size="1.5rem" color="#000"/>
+                    <span className="add-folder-modal-title">저장하기</span>
+                </div>
+            }>
+                <div className="add-folder-modal-content">
+                    <hr className="add-folder-modal-separator"/>
+                    <div className="add-folder-modal-item">
+                        <span className="add-folder-modal-item-label">폴더</span>
+                        <NativeSelect 
+                            variant="filled"
+                            placeholder="상위 5개"
+                            data={libraries?.map(library => ({ value: library.id, label: library.name }))}
+                            value={selectedLibrary}
+                            onChange={(e) => setSelectedLibrary(e.target.value)}
+                        />
+                    </div>
+                    <Button variant="filled" color="rgba(0,0,0,1)" className="add-folder-modal-button" onClick={() => saveToLibraryButtonHandler()}>
+                        저장
+                    </Button>
+                </div>
             </Modal>
             <div className="table-component-header">
                 <div className="table-component-title">
@@ -713,7 +757,8 @@ export default function TableComponent(props) {
                                 color="rgba(1,1,1,1)"
                                 className="table-footer-button"
                                 // onClick={() => saveToLibraryButtonHandler()}
-                                onClick={props.openLibraryModal}
+                                // onClick={props.openLibraryModal}
+                                onClick={openLibraryModal}
                             >라이브러리 폴더에 저장</Button>
                         }
                     </div>

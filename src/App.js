@@ -90,6 +90,9 @@ function App() {
               <Route path="/home" element={<Home />} />
             </Route>
             <Route element={<Core showHeaderIcon={false} headerText={"쇼핑 키워드 리서치"} subText={"채널 별 경쟁사를 손쉽게 검색하여 지속적으로 관리 할 수 있습니다."} />}>
+              <Route path="/" element={<ShoppingKeywordSearch />} />
+            </Route>
+            <Route element={<Core showHeaderIcon={false} headerText={"쇼핑 키워드 리서치"} subText={"채널 별 경쟁사를 손쉽게 검색하여 지속적으로 관리 할 수 있습니다."} />}>
               <Route path="/search" element={<ShoppingKeywordSearch />} />
             </Route>
             <Route element={<Core showHeaderIcon={false} headerText={"라이브러리 관리"} />}>
