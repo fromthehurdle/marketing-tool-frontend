@@ -16,9 +16,24 @@
 .detail-page-analysis-container .post-analysis-container .post-analysis-header {
     display: flex;
     flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.detail-page-analysis-container .post-analysis-container .post-analysis-header .left {
+    display: flex;
+    flex-direction: row; 
     justify-content: flex-start; 
     align-items: center; 
     gap: 20px;
+}
+
+.detail-page-analysis-container .post-analysis-container .post-analysis-header .right .analysis-crawled-header-action {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-end;  
+    align-items: center;
+    gap: 20px; 
 }
 
 .detail-page-analysis-container .post-analysis-container .post-analysis-header .post-analysis-header-text {
@@ -26,6 +41,8 @@
     flex-direction: column;
     justify-content: flex-start;
     gap: 4px; 
+
+    padding-top: 16px;
 }
 
 .detail-page-analysis-container .post-analysis-container .post-analysis-header .post-analysis-header-text .post-analysis-header-title {
@@ -149,6 +166,17 @@
     min-width: 0; 
     box-sizing: border-box;
     max-width: 280px;
+
+
+    position: absolute; 
+    height: 70vh; 
+    top: 0; 
+    right: 0; 
+    background-color: #FFF; 
+    overflow-x: hidden; 
+    overflow-y: auto; 
+    z-index: 1000; 
+    padding-top: 0px;
 }
 
 .detail-page-analysis-container .post-analysis-container .result-sidebar .manage-grouping .manage-grouping-header {
@@ -168,6 +196,21 @@
     flex-shrink: 1; 
     min-width: 0;
 
+    padding-top: 16px;
+
+
+    position: sticky; 
+    top: 0; 
+    background-color: #FFF; 
+    padding-bottom: 8px; 
+    padding-top: 16px;
+}
+
+.detail-page-analysis-container .post-analysis-container .result-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-text {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
 }
 
 .detail-page-analysis-container .post-analysis-container .result-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-subtext {

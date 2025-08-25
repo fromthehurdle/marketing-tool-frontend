@@ -16,9 +16,24 @@
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header {
     display: flex;
     flex-direction: row; 
-    justify-content: flex-start; 
+    justify-content: space-between; 
     align-items: center; 
-    gap: 20px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .left {
+    display: flex;
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center; 
+    gap: 20px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .right .analysis-crawled-header-action {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-end;  
+    align-items: center;
+    gap: 20px; 
 }
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-header .analysis-crawled-header-text {
@@ -40,10 +55,15 @@
 }
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content {
-    display: flex;
+    /* display: flex;
     flex-direction: row; 
     justify-content: flex-start;
-    gap: 32px;
+    gap: 32px; */
+
+    display: flex; 
+    flex-direction: column-reverse; 
+    justify-content: flex-start; 
+    gap: 32px; 
 }
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar {
@@ -64,6 +84,7 @@
 
     border: 1px solid #E5E5EC;
     border-radius: 16px;
+
 }
 
 .detail-page-analysis-container .analysis-crawled-container .analysis-crawled-content .crawled-sidebar .manage-analysis .manage-analysis-header {
@@ -150,6 +171,21 @@ hr {
     min-width: 0; 
     box-sizing: border-box;
     max-width: 280px;
+
+    position: absolute; 
+    height: 70vh;
+    top: 0; 
+    right: 0;
+
+    background-color: #FFF; 
+
+    overflow-x: hidden; 
+    overflow-y: auto; 
+
+    z-index: 1000; 
+
+
+    padding-top: 0px;
 }
 
 .detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .manage-grouping-header {
@@ -169,6 +205,20 @@ hr {
     flex-shrink: 1; 
     min-width: 0;
 
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    padding-bottom: 8px;
+
+    padding-top: 16px;
+
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-text {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
 }
 
 .detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .manage-grouping-header .manage-grouping-header-subtext {
@@ -180,11 +230,26 @@ hr {
 }
 
 
+
 .detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     gap: 16px;
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item-container .grouped-images {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    gap: 4px; 
+}
+
+.detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item-container .grouping-indicator {
+    width: 1px;  
+    height: 10px;
+    background-color: #E5E5E5;
+    margin:auto;
 }
 
 .detail-page-analysis-container .analysis-crawled-container .crawled-sidebar .manage-grouping .grouping-item {
@@ -201,7 +266,6 @@ hr {
     padding-bottom: 16px; 
     padding-left: 12px; 
     padding-right: 12px;
-
     flex: 1; 
     
 }
@@ -287,6 +351,8 @@ hr {
     justify-content: flex-start;
     gap: 8px;
     position: relative; 
+
+    height: fit-content;
 }
 
 .crawled-item .crawled-item-menu {
@@ -335,8 +401,13 @@ hr {
 }
 
 .crawled-item-grouping {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
+
+    display: flex; 
+    flex-direction: row; 
+    justify-content: flex-start;
+    align-items: center;
     gap: 8px;
     width: 100%;
 }
@@ -439,7 +510,7 @@ hr {
 .crop-content {
     display: flex;
     flex-direction: row; 
-    justify-content: flex-start; 
+    justify-content: center;  
     gap: 32px;
 }
 

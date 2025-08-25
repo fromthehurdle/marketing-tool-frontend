@@ -36,7 +36,7 @@ export default function SidebarMenu(props) {
                     <IconDots size={16} style={{color: '#E5E5EC'}} />
                 </ActionIcon>
             </Menu.Target>
-            <Menu.Dropdown className="menu-dropdown-container">
+            <Menu.Dropdown className="menu-dropdown-container" style={{zIndex: 1001}}>
                 <div className="menu-dropdown">
                     <div className="menu-dropdown-header">
                         <IconDots size="1.2rem" color="#000" />
@@ -49,10 +49,10 @@ export default function SidebarMenu(props) {
                         <IconTrash size="1.2rem" color="#000" />
                         <span className="menu-item-text">이미지 삭제하기</span>
                     </Menu.Item>
-                    <Menu.Item className="menu-item">
+                    {/* <Menu.Item className="menu-item">
                         <IconSwitch size="1.2rem" color="#000" />
                         <span className="menu-item-text">이미지 교체하기</span>
-                    </Menu.Item>
+                    </Menu.Item> */}
                     <Menu.Item className="menu-item" onClick={() => {
                         props.openCropModal();
                         props.setCropSection(props.section);

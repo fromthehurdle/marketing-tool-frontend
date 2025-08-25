@@ -19,7 +19,12 @@ import {
   IconCrop,
   IconPlus,
   IconCopy, 
-  IconMinus
+  IconMinus, 
+  IconTrash, 
+  IconX,
+  IconStack,
+  IconDeviceFloppy, 
+  IconLayersIntersect, 
 } from '@tabler/icons-react';
 import TableComponent from '../components/TableComponent';
 import CompareComponent from '../components/CompareComponent';
@@ -27,6 +32,7 @@ import { baseUrl } from '../shared';
 import SidebarMenu from './SidebarMenu';
 import ReactCrop, { centerCrop, makeAspectCrop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+
 
 export default function PreAnalysis(props) {
 
@@ -52,6 +58,12 @@ export default function PreAnalysis(props) {
 
     const [croppedImages, setCroppedImages] = useState({});
     const [cropImageList, setCropImageList] = useState([]);
+    const [croppingItems, setCroppingItems] = useState([]);
+
+    const [combiningImages, setCombiningImages] = useState(false);
+    const [combinedImages, setCombinedImages] = useState([]);
+
+    const [sectionNavigatorVisible, setSectionNavigatorVisible] = useState(false);
 
     const onImageLoad = (e, imageId) => {
     const { width, height } = e.currentTarget;
@@ -239,7 +251,7 @@ export default function PreAnalysis(props) {
                 // getDetailImages();
                 
                 // return data;
-                saveCroppedImage(data.image_url);
+                saveCroppedImage(data.image_url, imageId);
             } else {
                 console.error('Failed to upload cropped image:', data);
                 alert(`Upload failed: ${data.error || 'Unknown error'}`);
@@ -252,7 +264,7 @@ export default function PreAnalysis(props) {
         }
     };
 
-    const saveCroppedImage = async (url) => {
+    const saveCroppedImage = async (url, imageId) => {
         try {
             const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/images/`, {
                 method: 'POST', 
@@ -264,6 +276,7 @@ export default function PreAnalysis(props) {
                     url: url.substring(8), 
                     section: 1, 
                     category: "product_option",
+                    image_id: imageId,
                 })
             }); 
 
@@ -271,7 +284,7 @@ export default function PreAnalysis(props) {
 
             if (response.ok) {
                 console.log("Cropped image saved successfully");
-                setCropImageList(prev => [...prev, data?.id]);
+                // setCropImageList(prev => [...prev, data?.id]);
                 getDetailImages(); // Refresh the images list after saving
             }
         } catch (error) {
@@ -293,30 +306,65 @@ export default function PreAnalysis(props) {
     };
 
 
+    // const getDetailImages = async () => {
+    //     try {
+    //         const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/images/`, {
+    //             method: 'GET', 
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${localStorage.getItem('access')}` 
+    //             }
+    //         });
+
+    //         const data = await response.json();
+
+    //         if (response.ok) {
+    //             console.log("Detail images fetched successfully:", data);
+    //             setDetailImages(data);
+    //             setImageStates(data.map((image) => {
+    //                 return {
+    //                     id: image.id,
+    //                     section: image.section || '',
+    //                     category: image.category || '', 
+    //                     checked: false
+    //                 };
+    //             }));
+    //         }
+    //     } catch (error) {
+    //         console.error("Error fetching detail images:", error);
+    //     }
+    // }
+
     const getDetailImages = async () => {
         try {
-            const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/images/`, {
+            const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/image_groups/`, {
                 method: 'GET', 
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json', 
                     'Authorization': `Bearer ${localStorage.getItem('access')}` 
                 }
-            });
+            }); 
 
             const data = await response.json();
 
             if (response.ok) {
-                console.log("Detail images fetched successfully:", data);
                 setDetailImages(data);
-                setImageStates(data.map((image) => {
-                    return {
-                        id: image.id,
-                        section: image.section || '',
-                        category: image.category || '', 
-                        checked: false
-                    };
-                }));
+                setImageStates(
+                    data?.reduce((acc, section) => {
+                        section?.images?.forEach((image) => {
+                        acc[image.id] = {
+                            id: image.id,
+                            section: image.section || '',
+                            category: image.category || '',
+                            checked: false,
+                        };
+                        });
+                        return acc;
+                    }, {}) || {}
+                );
             }
+
+            
         } catch (error) {
             console.error("Error fetching detail images:", error);
         }
@@ -330,6 +378,8 @@ export default function PreAnalysis(props) {
 
 
     const imageBulkUpdate = async (newImageStates) => {
+
+        console.log("Bulk updating images with states:", newImageStates);
         try {
             const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/bulk_update_images/`, {
                 method: 'POST', 
@@ -360,6 +410,8 @@ export default function PreAnalysis(props) {
                 return 'Selling Point';
             case 'product_option':
                 return 'Product Option';
+            case 'product_information': 
+                return 'Product Information';
             case 'review':
                 return 'Review';
             case 'qna':
@@ -375,7 +427,7 @@ export default function PreAnalysis(props) {
 
     const analyzeResult = async () => {
         try {
-            const checkedImages = imageStates.filter(image => image.checked);
+            const checkedImages = Object.values(imageStates).filter(image => image.checked && image.section && image.category);
 
             if (checkedImages.length === 0) {
                 return;
@@ -400,28 +452,13 @@ export default function PreAnalysis(props) {
 
             if (response.ok) {
                 console.log("Analysis started successfully:", data);
+                props.setLoading(true);
             }
         } catch (error) {
             console.error("Error during analysis:", error);
         }
     }
-    
-    const checkGrouping = (value, type) => {
-        
-        if (type === "section") {
-            // const filteredImages = new Set(imageStates.filter(image => image.section === value).map((image) => image.category));
-            // if (filteredImages.size > 1) {
-            //     open();
-            //     set
-            // }
-        } else if (type === "category") {
-            const filteredImages = new Set(imageStates.filter(image => image.category === value).map((image) => image.section));
-            if (filteredImages.size >  1) {
-                open();
-            }
 
-        }
-    }
 
     const groupingHandler = async () => {
         try {
@@ -440,14 +477,6 @@ export default function PreAnalysis(props) {
         }
     }
 
-    // const sectionOptions = React.useMemo(() => {
-    //     const n = props?.resultData?.image_count ?? 0;
-    //     return Array.from({ length: n }, (_, i) => ({
-    //         value: String(i + 1),
-    //         label: `Section ${i + 1}`,
-    //     }));
-    // }, [props?.resultData?.image_count]);
-
     const sectionOptions = React.useMemo(() => {
         const n = props?.resultData?.image_count ?? 0;
         return [
@@ -461,6 +490,29 @@ export default function PreAnalysis(props) {
 
     const handleCrop = (imageId) => {
         getCroppedImg(imageId);
+    }
+
+    const handleDuplicate = async (imageId) => {
+        try {
+            const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/duplicate_image/`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${localStorage.getItem('access')}` 
+                }, 
+                body: JSON.stringify({
+                    image_id: imageId, 
+                })
+            }); 
+            const data = await response.json();
+
+            if (response.ok) {
+                getDetailImages();
+                setCropImageList(prev => [...prev, data?.id]);
+            }
+        } catch (error) {
+            console.error("Error during duplication:", error);
+        }
     }
 
     const getImageUrl = (url) => {
@@ -491,90 +543,6 @@ export default function PreAnalysis(props) {
             console.error("Error deleting image:", error);
         }
     }
-
-
-    // // Helper function to get the next available section for a category
-    // const getNextAvailableSection = (selectedCategory, currentImageStates, excludeImageId = null) => {
-    //     const maxSections = props?.resultData?.image_count ?? 0;
-        
-    //     // Get all sections currently used by other categories (excluding the selected category)
-    //     const usedSections = new Set();
-    //     currentImageStates.forEach(imageState => {
-    //         if (imageState.category && 
-    //             imageState.category !== selectedCategory && 
-    //             imageState.section &&
-    //             imageState.id !== excludeImageId) {
-    //             usedSections.add(parseInt(imageState.section));
-    //         }
-    //     });
-        
-    //     // Find the first available section
-    //     for (let i = 1; i <= maxSections; i++) {
-    //         if (!usedSections.has(i)) {
-    //             return i.toString();
-    //         }
-    //     }
-        
-    //     return '1'; // fallback
-    // };
-
-    // // Helper function to check if a section is available for a category
-    // const isSectionAvailableForCategory = (section, category, currentImageStates, excludeImageId = null) => {
-    //     if (!section || !category) return true;
-        
-    //     // Check if any other category is using this section
-    //     return !currentImageStates.some(imageState => 
-    //         imageState.category && 
-    //         imageState.category !== category && 
-    //         imageState.section === section &&
-    //         imageState.id !== excludeImageId
-    //     );
-    // };
-
-    // // Modified section change handler
-    // const handleSectionChange = (imageId, newSection, imageIndex) => {
-    //     const currentImage = imageStates[imageIndex];
-    //     const currentCategory = currentImage.category;
-        
-    //     if (!currentCategory) {
-    //         // If no category is set, just update the section for this image
-    //         const newImageStates = [...imageStates];
-    //         newImageStates[imageIndex].section = newSection;
-    //         setImageStates(newImageStates);
-    //         imageBulkUpdate([{ id: imageId, section: newSection, category: currentCategory }]);
-    //         return;
-    //     }
-        
-    //     // Check if the new section is available for this category
-    //     if (!isSectionAvailableForCategory(newSection, currentCategory, imageStates, imageId)) {
-    //         alert(`Section ${newSection} is already used by another category. Please choose a different section.`);
-    //         return;
-    //     }
-        
-    //     // Update all images with the same category to have the same section
-    //     const newImageStates = imageStates.map(imageState => {
-    //         if (imageState.category === currentCategory) {
-    //             return {
-    //                 ...imageState,
-    //                 section: newSection
-    //             };
-    //         }
-    //         return imageState;
-    //     });
-        
-    //     setImageStates(newImageStates);
-        
-    //     // Bulk update all images with the same category
-    //     const imagesToUpdate = newImageStates
-    //         .filter(imageState => imageState.category === currentCategory)
-    //         .map(imageState => ({ 
-    //             id: imageState.id, 
-    //             section: imageState.section, 
-    //             category: imageState.category 
-    //         }));
-        
-    //     imageBulkUpdate(imagesToUpdate);
-    // };
 
     // Updated helper function to check if a section is available for a category
     const isSectionAvailableForCategory = (section, category, currentImageStates) => {
@@ -674,62 +642,164 @@ export default function PreAnalysis(props) {
     };
 
     
-    // Modified category change handler
+    // // Modified category change handler
+    // const handleCategoryChange = (imageId, newCategory, imageIndex) => {
+    //     if (!newCategory) {
+    //         // If clearing category, just update this image
+    //         const newImageStates = [...imageStates];
+    //         newImageStates[imageIndex].category = newCategory;
+    //         setImageStates(newImageStates);
+    //         imageBulkUpdate([{id: imageId, section: imageStates[imageIndex].section, category: newCategory}]);
+    //         return;
+    //     }
+        
+    //     // Check if this category already has a section assigned to other images
+    //     const existingCategorySection = imageStates.find(imageState => 
+    //         imageState.category === newCategory && imageState.id !== imageId
+    //     )?.section;
+        
+    //     let assignedSection;
+        
+    //     if (existingCategorySection) {
+    //         // Use the existing section for this category
+    //         assignedSection = existingCategorySection;
+    //     } else {
+    //         // Find the next available section for this category
+    //         assignedSection = getNextAvailableSection(newCategory, imageStates, imageId);
+    //     }
+        
+    //     // Update all images with the same category (including this one)
+    //     const newImageStates = imageStates.map(imageState => {
+    //         if (imageState.id === imageId) {
+    //             return {
+    //                 ...imageState,
+    //                 category: newCategory,
+    //                 section: assignedSection
+    //             };
+    //         } else if (imageState.category === newCategory) {
+    //             return {
+    //                 ...imageState,
+    //                 section: assignedSection
+    //             };
+    //         }
+    //         return imageState;
+    //     });
+        
+    //     setImageStates(newImageStates);
+        
+    //     // Bulk update all affected images
+    //     const imagesToUpdate = newImageStates
+    //         .filter(imageState => imageState.category === newCategory)
+    //         .map(imageState => ({ 
+    //             id: imageState.id, 
+    //             section: imageState.section, 
+    //             category: imageState.category 
+    //         }));
+        
+    //     imageBulkUpdate(imagesToUpdate);
+    // };
+
+    const categorySection = {
+        hook: '1',
+        promotion: '2',
+        selling_point: '3',
+        product_option: '4',
+        review: '5',
+        qna: '6',
+        shipping: '7',
+        other: '8',
+    }
+
     const handleCategoryChange = (imageId, newCategory, imageIndex) => {
-        if (!newCategory) {
-            // If clearing category, just update this image
-            const newImageStates = [...imageStates];
-            newImageStates[imageIndex].category = newCategory;
-            setImageStates(newImageStates);
-            imageBulkUpdate([{id: imageId, section: imageStates[imageIndex].section, category: newCategory}]);
+        console.log(`Changing category for image ${imageId} to ${newCategory}, index: ${imageIndex}`);
+        console.log('category section: ', categorySection[newCategory]);
+
+        if (imageId != null && newCategory != null && imageIndex != null) {
+            const updateDict = {
+                id: imageId, 
+                section: categorySection[newCategory] || '1', // Default to section 1 if not found
+                category: newCategory
+            }
+
+            imageBulkUpdate([updateDict]);
+        }
+    }
+
+
+    // Add these to your component state
+    const [position, setPosition] = useState({ x: 1000, y: 100 });
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+    const manageGroupingRef = useRef(null);
+
+    // Add these event handlers
+    const handleMouseDown = (e) => {
+        // Only start dragging if clicking on the header area, not on interactive elements
+        if (e.target.closest('input, button, select, textarea')) {
             return;
         }
         
-        // Check if this category already has a section assigned to other images
-        const existingCategorySection = imageStates.find(imageState => 
-            imageState.category === newCategory && imageState.id !== imageId
-        )?.section;
+        setIsDragging(true);
+        const rect = manageGroupingRef.current.getBoundingClientRect();
+        setDragOffset({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+        });
+        e.preventDefault(); // Prevent text selection
+    };
+
+    const handleMouseMove = (e) => {
+        if (!isDragging) return;
         
-        let assignedSection;
+        // Keep the element within viewport bounds
+        const newX = Math.max(0, Math.min(window.innerWidth - 300, e.clientX - dragOffset.x));
+        const newY = Math.max(0, Math.min(window.innerHeight - 200, e.clientY - dragOffset.y));
         
-        if (existingCategorySection) {
-            // Use the existing section for this category
-            assignedSection = existingCategorySection;
-        } else {
-            // Find the next available section for this category
-            assignedSection = getNextAvailableSection(newCategory, imageStates, imageId);
+        setPosition({
+            x: newX,
+            y: newY
+        });
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+    };
+
+    // Add this useEffect
+    useEffect(() => {
+        if (isDragging) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
         }
         
-        // Update all images with the same category (including this one)
-        const newImageStates = imageStates.map(imageState => {
-            if (imageState.id === imageId) {
-                return {
-                    ...imageState,
-                    category: newCategory,
-                    section: assignedSection
-                };
-            } else if (imageState.category === newCategory) {
-                return {
-                    ...imageState,
-                    section: assignedSection
-                };
-            }
-            return imageState;
-        });
-        
-        setImageStates(newImageStates);
-        
-        // Bulk update all affected images
-        const imagesToUpdate = newImageStates
-            .filter(imageState => imageState.category === newCategory)
-            .map(imageState => ({ 
-                id: imageState.id, 
-                section: imageState.section, 
-                category: imageState.category 
-            }));
-        
-        imageBulkUpdate(imagesToUpdate);
-    };
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDragging, dragOffset.x, dragOffset.y]);
+
+    const handleImageCombination = async () => {
+        try {
+            const response = await fetch(baseUrl + `api/result-items/${props?.resultData?.id}/combine_images/`, {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                    'Authorization': `Bearer ${localStorage.getItem('access')}`
+                }, 
+                body: JSON.stringify({
+                    image_ids: combinedImages, 
+                })                
+            });
+
+            if (response.ok) {
+                getDetailImages();
+            } 
+            setCombiningImages(false);
+            setCombinedImages([]);
+        } catch (error) {
+            console.error("Error during image combination:", error);
+        }
+    }
 
     
     return (
@@ -774,11 +844,10 @@ export default function PreAnalysis(props) {
                 </div>
             }>
                 <div className="crop-content">
-                    <div className="crawled-sidebar">
+                    {/* <div className="crawled-sidebar">
                         <div className="manage-analysis">
                             <div className="manage-analysis-header">
                                 <span className="manage-analysis-header-text">이미지 크롭 관리</span>
-                                {/* <span className="manage-analysis-header-subtext">이미지의 섹션, 카테고리를 나눠주세요</span> */}
                             </div>
                             <div className="manage-analysis-content">
                                 <Checkbox 
@@ -794,10 +863,8 @@ export default function PreAnalysis(props) {
                                         }));
                                         setImageStates(newImageStates);
                                     }}
-                                    checked={imageStates.every(image => image.checked)}
                                 />
                                 <span className="manage-analysis-selected-count">
-                                    {imageStates.filter(image => image.checked).length} selected
                                 </span>
                             </div>
                             <hr />
@@ -821,7 +888,6 @@ export default function PreAnalysis(props) {
                             </div>
                             <div className="grouping-item-container">
                                 {detailImages?.filter(image => cropImageList?.includes(image?.id)).map((image, index) => {
-                                // {detailImages?.filter(image => image.id === cropId)?.map((image, index) => {
                                     return (
                                         <div className="grouping-item">
                                             <Checkbox
@@ -843,11 +909,130 @@ export default function PreAnalysis(props) {
                                 })}
                             </div>
                         </div>
-                    </div>
+                    </div> */}
+                    
 
                     <div className="crop-main">
-                        {/* {detailImages?.filter(image => image.id === cropId).map((image, index) => { */}
-                        {detailImages?.filter(image => cropImageList?.includes(image.id)).map((image, index) => {
+                        {detailImages?.map((section, index) => {
+                            return (
+                                <>
+                                    {section?.images?.filter(image => cropImageList?.includes(image.id)).map((image, index) => {
+                                        return (
+                                            <div key={index} className="crop-item">                            
+                                                <div className="crop-image-container">
+                                                    {croppingItems.includes(image.id) ? 
+                                                        <ReactCrop
+                                                            crop={crops[image.id] || undefined}
+                                                            onChange={(_, percentCrop) => {
+                                                                setCrops(prev => ({
+                                                                    ...prev,
+                                                                    [image.id]: percentCrop
+                                                                }));
+                                                            }}
+                                                            onComplete={(c) => {
+                                                                setCompletedCrops(prev => ({
+                                                                    ...prev,
+                                                                    [image.id]: c
+                                                                }));
+                                                            }}
+                                                            minWidth={50}
+                                                            minHeight={50}
+
+                                                        >
+                                                            <img 
+                                                                ref={(el) => {
+                                                                    if (el) {
+                                                                        imgRefs.current[image.id] = el;
+                                                                    }
+                                                                }}
+                                                                src={getImageUrl(image?.url) || "https://placehold.co/600x400?text=Placeholder"}
+                                                                alt="Crawled Image"
+                                                                className="crop-image"
+                                                                onLoad={(e) => onImageLoad(e, image.id)}
+                                                                style={{ maxWidth: '100%', height: 'auto' }}
+                                                                crossOrigin="anonymous"
+                                                            />
+                                                        </ReactCrop>
+                                                        : 
+                                                        <img 
+                                                            ref={(el) => {
+                                                                if (el) {
+                                                                    imgRefs.current[image.id] = el;
+                                                                }
+                                                            }}
+                                                            src={getImageUrl(image?.url) || "https://placehold.co/600x400?text=Placeholder"}
+                                                            alt="Crawled Image"
+                                                            className="crop-image"
+                                                            onLoad={(e) => onImageLoad(e, image.id)}
+                                                            style={{ maxWidth: '100%', height: 'auto' }}
+                                                            crossOrigin="anonymous"
+                                                        />
+                                                    }                            
+                                                    <canvas
+                                                        ref={canvasRef}
+                                                        style={{ display: 'none' }}
+                                                    />
+                                                    <div className="crop-image-menu">
+                                                        {croppingItems.includes(image.id) ?
+                                                            <span className="crop-menu-icon" onClick={() => {
+                                                                handleCrop(image.id);
+                                                                setCroppingItems([]);
+                                                            }}>
+                                                                <IconDeviceFloppy size="1.5rem" color="#000" />
+                                                            </span>
+                                                            : 
+                                                            <span className="crop-menu-icon" onClick={() => {
+                                                                setCroppingItems(prev => [...prev, image.id]);
+                                                            }}>
+                                                                <IconCrop size="1.5rem" color="#000" />
+                                                            </span>
+
+                                                        }                                                        
+                                                        
+                                                        <span className="crop-menu-icon" onClick={() => {
+                                                            handleDuplicate(image.id);
+                                                        }}>
+                                                            <IconCopy size="1.5rem" color="#000" />
+                                                        </span>
+                                                        <span className="crop-menu-icon" onClick={() => {
+                                                            handleImageDelete(image.id);
+                                                        }}>
+                                                            <IconTrash size="1.5rem" color="#000" />
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                {/* <div className="crop-image-properties">
+                                                    <NativeSelect 
+                                                        placeholder="Categories"
+                                                        data={[
+                                                            {value: "", label: ""}, 
+                                                            {value: "hook", label: "Hook"},
+                                                            {value: "promotion", label: "Promotion"}, 
+                                                            {value: "selling_point", label: "Selling Point"},
+                                                            {value: "product_option", label: "Product Option"},
+                                                            {value: "product_information", label: "Product Information"},
+                                                            {value: "review", label: "Review"},
+                                                            {value: "qna", label: "QnA"},
+                                                            {value: "shipping", label: "Shipping"},
+                                                            {value: "other", label: "Other"}
+                                                        ]}
+                                                        className="crop-item-grouping-select"
+                                                        radius="8px"
+                                                        value={Object.values(imageStates).find(imageState => imageState.id === image.id)?.category || ''}
+                                                        // value={imageStates.find(imageState => imageState.id === image.id)?.category || ''}
+                                                        onChange={(e) => {
+                                                            const imageIndex = 0; 
+                                                            handleCategoryChange(image.id, e.target.value, imageIndex);
+                                                        }}
+                                                    />
+                                                </div> */}
+                                            </div>
+                                        );
+                                    })}
+                                </>
+                            );
+                        })}
+                        {/* {detailImages?.filter(image => cropImageList?.includes(image.id)).map((image, index) => {
                             return (
                                 <div key={index} className="crop-item">                            
                                     <div className="crop-image-container">
@@ -865,7 +1050,6 @@ export default function PreAnalysis(props) {
                                                     [image.id]: c
                                                 }));
                                             }}
-                                            // aspect={1} // Remove this if you want free-form cropping
                                             minWidth={50}
                                             minHeight={50}
 
@@ -884,8 +1068,7 @@ export default function PreAnalysis(props) {
                                                 crossOrigin="anonymous"
                                             />
                                         </ReactCrop>
-                    
-                                        {/* Hidden canvas for crop processing - keep single canvas */}
+                
                                         <canvas
                                             ref={canvasRef}
                                             style={{ display: 'none' }}
@@ -964,30 +1147,7 @@ export default function PreAnalysis(props) {
                                             ]}
                                             className="crop-item-grouping-select"
                                             radius="8px"
-                                            // value={image?.category || ''}
                                             value={imageStates.find(imageState => imageState.id === image.id)?.category || ''}
-                                            // onChange={(e) => {
-                                            //     // const newImageStates = [...imageStates];
-                                            //     // newImageStates[index].category = e.target.value;
-                                            //     // setImageStates(newImageStates);
-                                            //     // imageBulkUpdate(newImageStates.map((image) => ({ id: image.id, section: image.section, category: image.category })));
-                                            //     const newImageStates = imageStates.map(imageState => {
-                                            //         if (imageState.id === image.id) {
-                                            //             return {
-                                            //                 ...imageState,
-                                            //                 category: e.target.value
-                                            //             };
-                                            //         }
-                                            //         return imageState;
-                                            //     });
-                                            //     setImageStates(newImageStates);
-                                            //     imageBulkUpdate(newImageStates.map((imageState) => ({ 
-                                            //         id: imageState.id, 
-                                            //         section: imageState.section, 
-                                            //         category: imageState.category 
-                                            //     })));
-                                            // }}
-
                                             onChange={(e) => {
                                                 const imageIndex = imageStates.findIndex(img => img.id === image.id);
                                                 handleCategoryChange(image.id, e.target.value, imageIndex);
@@ -996,16 +1156,58 @@ export default function PreAnalysis(props) {
                                     </div>
                                 </div>
                             );  
-                        })}
+                        })} */}
                     </div>
 
                 </div>
             </Modal>
             <div className="analysis-crawled-header">
-                <Image src="" w={40} h={40} fallbackSrc="https://placehold.co/600x400?text=Placeholder"/>
-                <div className="analysis-crawled-header-text">
-                    <span className="analysis-crawled-header-title">{props?.resultData?.product}</span>
-                    <span className="analysis-crawled-header-subtitle">Completed {props?.resultData?.created_at.split("T")[0]} {props?.resultData?.created_at.split("T")[1].split(".")[0]}</span>
+                <div className="left">
+                    <Image src="" w={40} h={40} fallbackSrc="https://placehold.co/600x400?text=Placeholder"/>
+                    <div className="analysis-crawled-header-text">
+                        <span className="analysis-crawled-header-title">{props?.resultData?.product}</span>
+                        <span className="analysis-crawled-header-subtitle">Completed {props?.resultData?.created_at.split("T")[0]} {props?.resultData?.created_at.split("T")[1].split(".")[0]}</span>
+                    </div>
+                </div>
+                <div className="right">
+                    <div className="analysis-crawled-header-action">
+                        <Button
+                            leftSection={<IconStack size="1.5rem" />}
+                            variant="filled"
+                            color="rgba(0,0,0,1)"
+                            className="analysis-crawled-header-button"
+                            onClick={() => {
+                                setSectionNavigatorVisible(!sectionNavigatorVisible);
+                            }}
+                        >
+                            <span className="analysis-crawled-header-button-text">Section Navigator</span>
+                        </Button>
+                        <Button
+                            leftSection={!combiningImages? <IconLayersIntersect size="1.5rem" /> : <IconDeviceFloppy size="1.5rem" />}
+                            variant="filled"
+                            color="rgba(0,0,0,1)"
+                            className="analysis-crawled-header-button"
+                            onClick={() => {
+
+                                if (combiningImages && combinedImages.length > 0) {
+                                    // Start combining process
+                                    console.log("Combining images:", combiningImages);
+                                    console.log("Combined images:", combinedImages);
+                                    handleImageCombination();
+                                } else if (combiningImages) {
+                                    setCombiningImages(false);
+                                    console.log("Combining images stopped");
+                                } else {
+                                    setCombinedImages([]);
+                                    setCombiningImages(true);
+                                    console.log("Combining images started");
+                                }
+                            }}
+                        >
+                            <span className="analysis-crawled-header-button-text">Combine Section</span>
+                        </Button>
+                        <IconDots size="1.5rem" />
+                    </div>
                 </div>
             </div>
             <hr style={{marginTop: "-16px"}} />
@@ -1025,16 +1227,29 @@ export default function PreAnalysis(props) {
                                 color="rgba(0, 0, 0, 1)"
                                 radius="xs"
                                 onChange={(e) => {
-                                    const newImageStates = imageStates.map(image => ({
-                                        ...image,
-                                        checked: e.target.checked
-                                    }));
+                                    // const newImageStates = imageStates.map(image => ({
+                                    //     ...image,
+                                    //     checked: e.target.checked
+                                    // }));
+                                    // setImageStates(newImageStates);
+
+                                    const newImageStates = Object.fromEntries(
+                                        Object.entries(imageStates).map(([id, image]) => [
+                                            id,
+                                            {
+                                            ...image,
+                                            checked: e.target.checked
+                                            }
+                                        ])
+                                    );
                                     setImageStates(newImageStates);
                                 }}
-                                checked={imageStates.every(image => image.checked)}
+                                // checked={imageStates.every(image => image.checked)}
+                                checked={Object.values(imageStates).every(image => image.checked)}
                             />
                             <span className="manage-analysis-selected-count">
-                                {imageStates.filter(image => image.checked).length} selected
+                                {/* {imageStates.filter(image => image.checked).length} selected */}
+                                {Object.values(imageStates).filter(image => image.checked).length} selected 
                             </span>
                         </div>
                         <hr />
@@ -1048,41 +1263,104 @@ export default function PreAnalysis(props) {
                                     analyzeResult();
                                 }}
                             >
-                                페이지 분석하기 (0)
+                                페이지 분석하기 ({Object.values(imageStates).filter(image => image.checked).length})
                             </Button>
                         </div>
                     </div>
-                    <div className="manage-grouping">
-                        <div className="manage-grouping-header">
-                            <span className="manage-grouping-header-text">섹션 관리</span>
-                            <span className="manage-grouping-header-subtext">이미지에 섹션과 카테고리가 설정되면 여기서 분석할 섹션을 관리할 수 있습니다.</span>
-                        </div>
-                        <div className="grouping-item-container">
-                            {detailImages?.map((image, index) => {
-                                return (
-                                    <div className="grouping-item">
-                                        <Checkbox
-                                            color="rgba(0, 0, 0, 1)"
-                                            onChange={(e) => {
-                                                const newImageStates = [...imageStates];
-                                                newImageStates[index].checked = e.target.checked;
-                                                setImageStates(newImageStates);
-                                            }}
-                                            checked={imageStates[index]?.checked || false}
-                                        />
-                                        <div className="group-item-text">
-                                            <div className="group-item-section">{image?.section ? `Section ${image?.section}` : "TBD"}</div>
-                                            <span className="group-item-category">{image?.category ? `${getImageCategory(image?.category)}` : "TBD"}</span>
+                    
+                    {sectionNavigatorVisible && 
+                        <div 
+                            className="manage-grouping" 
+                            ref={manageGroupingRef}
+                            // onMouseDown={handleMouseDown}
+                            style={{
+                                position: 'absolute',
+                                left: `${position.x}px`,
+                                top: `${position.y}px`,
+                                userSelect: 'none',
+                                // cursor: isDragging ? 'grabbing' : 'pointer',
+                                zIndex: isDragging ? 1000 : 999
+                            }}
+                        >
+                            <div 
+                                className="manage-grouping-header"
+                                style={{
+                                    cursor: isDragging ? 'grabbing' : 'move',
+                                    // padding: '8px'
+                                    zIndex: 1000
+                                }}
+                                onMouseDown={handleMouseDown}
+                            >
+                                <span className="manage-grouping-header-text">
+                                    <span>섹션 관리</span>
+                                    <IconX size="1rem" onClick={() => {
+                                        setSectionNavigatorVisible(false);
+                                    }} style={{cursor: 'pointer'}} /> 
+                                </span>
+                                <span className="manage-grouping-header-subtext">이미지에 섹션과 카테고리가 설정되면 여기서 분석할 섹션을 관리할 수 있습니다.</span>
+                            </div>
+                            <div className="grouping-item-container">
+                                {/* {detailImages?.map((image, index) => {
+                                    return (
+                                        <div className="grouping-item">
+                                            <Checkbox
+                                                color="rgba(0, 0, 0, 1)"
+                                                onChange={(e) => {
+                                                    const newImageStates = [...imageStates];
+                                                    newImageStates[index].checked = e.target.checked;
+                                                    setImageStates(newImageStates);
+                                                }}
+                                                checked={imageStates[index]?.checked || false}
+                                            />
+                                            <div className="group-item-text">
+                                                <div className="group-item-section">{image?.section ? `Section ${image?.section}` : "TBD"}</div>
+                                                <span className="group-item-category">{image?.category ? `${getImageCategory(image?.category)}` : "TBD"}</span>
+                                            </div>
+                                            <SidebarMenu openCropModal={openCropModal} setCropSection={setCropSection} section={image.section} />                                                               
                                         </div>
-                                        <SidebarMenu openCropModal={openCropModal} setCropSection={setCropSection} section={image.section} />                                                               
-                                    </div>
-                                );
-                            })}
+                                    );
+                                })} */}
+
+                                {detailImages?.map((section, index) => {
+                                    return (
+                                        <div key={index} className="grouping-item-container">
+                                            <div key={index} className="grouped-images">
+                                                {section?.images?.map((image, index) => {
+                                                    return (
+                                                        <>
+                                                            <div className="grouping-item">
+                                                                <Checkbox
+                                                                    color="rgba(0, 0, 0, 1)"
+                                                                    onChange={(e) => {
+                                                                        const newImageStates = {...imageStates};
+                                                                        newImageStates[image.id].checked = e.target.checked; 
+                                                                        setImageStates(newImageStates);
+                                                                    }}
+                                                                    checked={imageStates[image.id]?.checked || false}
+                                                                />
+                                                                <div className="group-item-text">
+                                                                    <div className="group-item-section">{image?.section ? `Section ${image?.section} - ${index + 1}` : "TBD"}</div>
+                                                                    <span className="group-item-category">{image?.category ? `${getImageCategory(image?.category)}` : "TBD"}</span>
+                                                                </div>
+                                                                <SidebarMenu openCropModal={openCropModal} setCropSection={setCropSection} section={image.section} setCropId={setCropId} cropId={image.id} setCropImageList={setCropImageList} setHoveredItem={setHoveredItem} handleImageDelete={handleImageDelete} />         
+                                                            </div>
+                                                            {section?.images.length > 1 && index < section?.images?.length - 1 && 
+                                                                <div className="grouping-indicator"></div>
+                                                            }
+                                                        </>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
-                    </div>
-                </div>
+                    }
+                    
+                </div> 
                 <div className="crawled-main">
-                    {detailImages?.map((image, index) => {
+                    {/* {detailImages?.map((image, index) => {
                         return (
                             <div key={index} className="crawled-item" 
                                 onMouseEnter={() => setHoveredItem(image.id)}
@@ -1091,12 +1369,10 @@ export default function PreAnalysis(props) {
                                 {hoveredItem === image.id && (
                                     <>
                                         <div className="crawled-item-menu">
-                                            {/* <IconDots size="1.5rem" color="#E5E5EC" /> */}
                                             <SidebarMenu openCropModal={openCropModal} setCropSection={setCropSection} section={image.section} setCropId={setCropId} cropId={image.id} setCropImageList={setCropImageList} setHoveredItem={setHoveredItem} handleImageDelete={handleImageDelete} />                                                               
                                         </div> 
                                         <div className="crawled-item-zoom">
                                             <IconSearch size="1.5rem" onClick={() => {
-                                                // setImageModalUrl(image?.url.substring(8));
                                                 setImageModalUrl(getImageUrl(image?.url));
                                                 openImageModal();
                                                 setHoveredItem(null);
@@ -1108,7 +1384,6 @@ export default function PreAnalysis(props) {
                                     src={getImageUrl(image?.url) || "https://placehold.co/600x400?text=Placeholder"}
                                     alt="Crawled Image" 
                                     className="crawled-image"
-                                    // style={{ minWidth: '300px', minHeight: '472px' }}
                                     fit="contain"
                                 />
                                 <div className="crawled-item-grouping">
@@ -1144,55 +1419,90 @@ export default function PreAnalysis(props) {
                                             handleCategoryChange(image.id, e.target.value, index);
                                         }}
                                     />
-                                    {/* <NativeSelect 
-                                        // variant="filled"
-                                        placeholder="Section"
-                                        data={sectionOptions}
-                                        className="crawled-item-grouping-select"
-                                        color="rgba(1, 1, 1, 1)"
-                                        radius="8px"
-                                        value={imageStates[index]?.section || ''}
-                                        onChange={(e) => {
-                                            const newImageStates = [...imageStates];
-                                            newImageStates[index].section = e.target.value;
-                                            setImageStates(newImageStates);
-                                            imageBulkUpdate([{ id: image.id, section: e.target.value, category: imageStates[index].category }]);
-                                            // imageBulkUpdate(newImageStates.map((image) => ({ id: image.id, section: image.section, category: image.category })));
-                                            // checkGrouping(e.target.value, "section");
-                                        }}
-                                    />
-                                    <NativeSelect 
-                                        // variant="filled"                                    
-                                        placeholder="Categories"
-                                        data={[
-                                            {value: "", label: ""}, 
-                                            {value: "hook", label: "Hook"},
-                                            {value: "promotion", label: "Promotion"}, 
-                                            {value: "selling_point", label: "Selling Point"},
-                                            {value: "product_option", label: "Product Option"},
-                                            {value: "review", label: "Review"},
-                                            {value: "qna", label: "QnA"},
-                                            {value: "shipping", label: "Shipping"},
-                                            {value: "other", label: "Other"}
-                                        ]}
-                                        className="crawled-item-grouping-select"
-                                        radius="8px"
-                                        value={imageStates[index]?.category || ''}
-                                        onChange={(e) => {
-                                            const newImageStates = [...imageStates];
-                                            newImageStates[index].category = e.target.value;
-                                            setImageStates(newImageStates);
-                                            imageBulkUpdate([{id: image.id, section: imageStates[index].section, category: e.target.value}]);
-                                            // imageBulkUpdate(newImageStates.map((image) => ({ id: image.id, section: image.section, category: image.category })));
-                                            // checkGrouping(e.target.value, "category");
-                                            
-                                        }}
-                                    /> */}
                                 </div>
                             </div> 
                         );
                         
+                    })} */}
+                    {detailImages?.map((section, index) => {
+                        return (
+                            <>
+                                {section?.images?.map((image, index) => {
+                                    return (
+                                        <div 
+                                            key={index} 
+                                            className="crawled-item"
+                                            onMouseEnter={() => setHoveredItem(image.id)}
+                                            onMouseLeave={() => setHoveredItem(null)}
+                                        >
+                                            {hoveredItem === image.id && (
+                                                <>
+                                                    <div className="crawled-item-menu">
+                                                        <SidebarMenu openCropModal={openCropModal} setCropSection={setCropSection} section={image.section} setCropId={setCropId} cropId={image.id} setCropImageList={setCropImageList} setHoveredItem={setHoveredItem} handleImageDelete={handleImageDelete} />                                                               
+                                                    </div> 
+                                                    <div className="crawled-item-zoom">
+                                                        <IconSearch size="1.5rem" onClick={() => {
+                                                            setImageModalUrl(getImageUrl(image?.url));
+                                                            openImageModal();
+                                                            setHoveredItem(null);
+                                                        }} />
+                                                    </div>
+                                                </>
+                                            )}
+
+                                            <Image 
+                                                src={getImageUrl(image?.url) || "https://placehold.co/600x400?text=Placeholder"}
+                                                alt="Crawled Image" 
+                                                className="crawled-image"
+                                                fit="contain"
+                                            />
+
+                                            <div className="crawled-item-grouping">
+                                                {combiningImages && 
+                                                    <Checkbox 
+                                                        color="rgba(0, 0, 0, 1)"
+                                                        radius="xs"
+                                                        onChange={(e) => {
+                                                            if (e.target.checked) {
+                                                                setCombinedImages(prev => [...prev, image.id]);
+                                                            } else {
+                                                                setCombinedImages(prev => prev.filter(id => id !== image.id));
+                                                            }
+                                                        }}
+                                                        checked={combinedImages.includes(image.id)}
+                                                    />
+                                                }
+                                                
+                                                <NativeSelect 
+                                                    placeholder="Categories"
+                                                    data={[
+                                                        {value: "", label: ""}, 
+                                                        {value: "hook", label: "Hook"},
+                                                        {value: "promotion", label: "Promotion"}, 
+                                                        {value: "selling_point", label: "Selling Point"},
+                                                        {value: "product_option", label: "Product Option"},
+                                                        {value: "product_information", label: "Product Information"},
+                                                        {value: "review", label: "Review"},
+                                                        {value: "qna", label: "QnA"},
+                                                        {value: "shipping", label: "Shipping"},
+                                                        {value: "other", label: "Other"}
+                                                    ]}
+                                                    className="crawled-item-grouping-select"
+                                                    radius="8px"
+                                                    value={imageStates[image.id]?.category || ''}
+                                                    onChange={(e) => {
+                                                        handleCategoryChange(image.id, e.target.value, index);
+                                                    }}
+                                                />
+                                            </div>
+                                            
+                                        </div>
+                                    );
+                                })}
+                            </>
+                        );
                     })}
+
                 </div>
             </div>
 

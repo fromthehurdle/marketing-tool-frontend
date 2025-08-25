@@ -32,6 +32,10 @@ export default function DetailPageAnalysis() {
     const [resultData, setResultData] = useState([]);
     const [analysisStarted, setAnalysisStarted] = useState(false);
 
+    const [loading, setLoading] = useState(false);
+
+    
+
     // const analysisHandler = async () => {
     //     try {   
     //         const response = await fetch(baseUrl + `api/results/4/analyze/`, {
@@ -99,13 +103,13 @@ export default function DetailPageAnalysis() {
 
         const fetchData = async () => {
             await getResultData();
-            if (resultData?.analysis_status === "in_progress" && !intervalId) {
-            intervalId = setInterval(() => {
-                getResultData();
-            }, 30000);
-            } else if (resultData?.analysis_status !== "in_progress" && intervalId) {
-            clearInterval(intervalId);
-            intervalId = null;
+            if ((loading || resultData?.analysis_status === "in_progress") && !intervalId) {
+                intervalId = setInterval(() => {
+                    getResultData();
+                }, 30000);
+            } else if ((loading || resultData?.analysis_status !== "in_progress") && intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
             }
         };
 
@@ -114,7 +118,8 @@ export default function DetailPageAnalysis() {
         return () => {
             if (intervalId) clearInterval(intervalId);
         };
-    }, [resultData?.analysis_status]);
+    }, [loading, resultData?.analysis_status]);
+
 
     return (
         <div className="detail-page-analysis-container">
@@ -177,7 +182,7 @@ export default function DetailPageAnalysis() {
             </div>        
             
             {resultData?.analysis_status === 'pending' &&
-                <PreAnalysis resultData={resultData} />
+                <PreAnalysis resultData={resultData} setLoading={setLoading}/>
             }
             
             {resultData?.analysis_status === 'in_progress' &&
